@@ -1,0 +1,62 @@
+//Validity Checking of an Arithmetic Expression using Stack
+#include <stdio.h>
+#include <stdbool.h>
+#define SIZE 50
+struct Stack {
+int top;
+char items[SIZE];
+};
+void initialize(struct Stack* stack) {
+stack->top = -1;
+}
+bool isEmpty(struct Stack* stack) {
+return (stack->top == -1);
+}
+void push(struct Stack* stack, char value) {
+if (stack->top >= SIZE - 1) {
+printf("Stack Overflow\n");
+return;
+}
+stack->items[++stack->top] = value;
+}
+char pop(struct Stack* stack) {
+if (isEmpty(stack)) {
+printf("Stack Underflow\n");
+return '\0';
+}
+return stack->items[stack->top--];
+}
+bool isValidExpression(char expression[]) {
+struct Stack stack;
+initialize(&stack);
+for (int i = 0; expression[i] != '\0'; i++) {
+char currentChar = expression[i];
+if (currentChar == '(' || currentChar == '[' || currentChar == '{') {
+push(&stack, currentChar);
+} else if (currentChar == ')' || currentChar == ']' || currentChar == '}') {
+if (isEmpty(&stack)) {
+return false; // Unmatched closing parenthesis
+}
+char poppedChar = pop(&stack);
+// Check if the popped character matches the current closing parenthesis
+if ((currentChar == ')' && poppedChar != '(') ||
+(currentChar == ']' && poppedChar != '[') ||
+(currentChar == '}' && poppedChar != '{')) {
+return false;
+}
+}
+}
+// Check if there are unmatched opening parentheses left in the stack
+return isEmpty(&stack);
+}
+int main() {
+char expression[SIZE];
+printf("Enter an arithmetic expression: ");
+scanf("%s", expression);
+if (isValidExpression(expression)) {
+printf("The expression is valid.\n");
+} else {
+printf("The expression is not valid.\n");
+}
+return 0;
+}
