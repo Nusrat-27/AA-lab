@@ -1,0 +1,34 @@
+
+#include <stdio.h>
+int coin_change(int n, int amount, int arry1[]) {
+int arry[n][amount];
+arry[0][0] = 1;
+for (int i = 0; i < n; i++) {
+for (int j = 0; j < amount; j++) {
+if (i == 0 && j != 0) {
+arry[i][j] = 0;
+} else if (arry1[i] > j) {
+arry[i][j] = arry[i - 1][j];
+} else if (arry1[i] <= j && j != 0) {
+int res = j - arry1[i];
+arry[i][j] = arry[i - 1][j] + arry[i][res];
+}
+}
+}
+return arry[n - 1][amount - 1];
+}
+int main() {
+int n, amount;
+printf("input number of coins: ");
+scanf("%d", &n);
+int arry[n];
+printf("input coins: ");
+arry[0] = 0;
+for (int i = 1; i <= n; i++) {
+scanf("%d", &arry[i]);
+}
+printf("amount: ");
+scanf("%d", &amount);
+printf("number of ways: %d", coin_change(n + 1, amount + 1, arry));
+return 0;
+}
