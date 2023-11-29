@@ -1,0 +1,38 @@
+//Path Count Problem and Minimum Cost Path Problem using Dynamic Programming
+#include <stdio.h>
+int path_count_dp(int row, int col) {
+int arry[row][col];
+arry[0][0] = 1;
+for (int i = 0; i < row; i++) {
+for (int j = 0; j < col; j++) {
+if (i == 0 && j != 0) {
+arry[i][j] = arry[i][j-1];
+}
+else if (i != 0 && j == 0) {
+arry[i][j] = arry[i-1][j];
+}
+else if (i != 0 && j != 0) {
+arry[i][j] = arry[i-1][j] + arry[i][j-1];
+}
+}
+}
+printf("------------------------------------\n");
+for (int i = 0; i < row; i++) {
+for (int j = 0; j < col; j++) {
+printf("%d\t", arry[i][j]);
+}
+printf("\n");
+}
+return arry[row-1][col-1];
+}
+int main() {
+printf("Input the number of rows: ");
+int row;
+scanf("%d", &row);
+printf("Input the number of columns: ");
+int col;
+scanf("%d", &col);
+int number_of_path = path_count_dp(row, col);
+printf("Number of paths to get to the destination: %d\n", number_of_path);
+return 0;
+}
