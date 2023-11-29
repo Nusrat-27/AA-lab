@@ -1,0 +1,48 @@
+#Subset Problem using Dynamic Programming
+#include <stdio.h>
+int subset_problem(int n, int sum, int arry[])
+{
+int arry1[n][sum];
+arry1[0][0] = 1;
+for(int i = 0; i < n; i++) {
+for(int j = 0; j < sum; j++) {
+if(i == 0 && j != 0) {
+arry1[i][j] = 0;
+}
+else if(arry[i] > j) {
+arry1[i][j] = arry1[i-1][j];
+}
+else if(arry[i] <= j && j != 0) {
+int temp = j - arry[i];
+if(arry1[i-1][j] == 1 || arry1[i-1][temp] == 1) {
+arry1[i][j] = 1;
+}
+else {
+arry1[i][j] = 0;
+}
+}
+}
+}
+return arry1[n-1][sum-1];
+}
+int main()
+{
+int n, sum;
+printf("input number of subsets: ");
+scanf("%d", &n);
+printf("subsets: ");
+int arry[n];
+arry[0] = 0;
+for(int i = 1; i <= n; i++) {
+scanf("%d", &arry[i]);
+}
+printf("sum: ");
+scanf("%d", &sum);
+int res = subset_problem(n+1, sum+1, arry);
+if(res == 0) {
+printf("subset sum not available\n");
+}
+else {
+printf("subset sum available\n");
+}
+return 0;
